@@ -1,28 +1,14 @@
 #!/bin/bash
 #INSTALLs all necessary components for bluerov
-#REQUIRES gazebo is installed
+#REQUIRES ros-melodic is installed
 
-#remove gazebo
-sudo apt-get remove ‘.gazebo.’ ‘.sdformat.’ ‘.ignition-math.’ ‘.ignition-msgs.’ '.ignition-transport.'
-#install ROS full
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-sudo apt-get update
-sudo apt install ros-melodic-desktop-full
-sudo apt install ros-melodic-catkin
-sudo apt-get install cmake python-catkin-pkg python-empy python-nose python-setuptools libgtest-dev build-essential -y
-sudo apt-get install python-catkin-pkg-modules 
-#install more ros stuff
-sudo apt-get install ros-melodic-joy*
-sudo apt-get install ros-melodic-mavros
-sudo apt-get install ros-melodic-mavros-extras
-sudo apt-get install python-catkin-tools python-rosinstall-generator -y
-sudo apt install catkin
-#install gstreamer
-sudo apt-get install libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio -y
-#Add setup to .bashrc
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-source ~/.bashrc
+
+#INSTALL the following packages
+#sudo apt-get install ros-melodic-mavros
+#sudo apt-get install ros-melodic-mavros-extras
+#sudo apt-get install libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio -y
+#sudo apt-get install git
+#sudo apt-get install ros-melodic-joy*
 
 
 mkdir -p bluerov_simulation/catkin_ws_bluerov/src
@@ -38,7 +24,7 @@ cmake ../
 
 #make bouyancy
 make
-export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:~/bluerov_simulation/freebuoyancy_gazebo/build
+#export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:~/bluerov_simulation/freebuoyancy_gazebo/build
 cd ../..
 #install ardupilot gazebo
 git clone -b add_link https://github.com/patrickelectric/ardupilot_gazebo.git
@@ -82,19 +68,22 @@ catkin_make
 cd ..
 wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
 chmod +x ./install_geographiclib_datasets.sh
-./install_geographiclib_datasets.sh
-#Install Mavros non binary
-cd catkin_ws_bluerov
-wstool init src
-rosinstall_generator --rosdistro melodic mavlink | tee /tmp/mavros.rosinstall
-rosinstall_generator --upstream mavros | tee -a /tmp/mavros.rosinstall
-wstool merge -t src /tmp/mavros.rosinstall
-wstool update -t src -j4
-sudo apt-get install python-rosdep
-sudo rosdep init
-rosdep update
-rosdep install --from-paths src --ignore-src -y
-catkin_make_isolated
+sudo ./install_geographiclib_datasets.sh
+
+
+#Install Mavros non binary - currently unsure if this is necessary
+#cd catkin_ws_bluerov
+#wstool init src
+#rosinstall_generator --rosdistro melodic mavlink | tee /tmp/mavros.rosinstall
+#rosinstall_generator --upstream mavros | tee -a /tmp/mavros.rosinstall
+#wstool merge -t src /tmp/mavros.rosinstall
+#wstool update -t src -j4
+#sudo apt-get install python-rosdep
+#sudo rosdep init
+#rosdep update
+#rosdep install --from-paths src --ignore-src -y
+#catkin_make_isolated
+
 
 #Seperately, you need to install and setup Ground Control
 #https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html
