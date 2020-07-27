@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#setup
+export PATH=$PATH:usr/bluerov_simulation/ardupilot/Tools/autotest
+
 # Start ROS
 roscore &
 sleep 3

@@ -9,6 +9,8 @@
 #sudo apt-get install git
 #sudo apt-get install ros-melodic-joy*
 
+#installs for Docker
+pip install -U pymavlink
 
 mkdir -p bluerov_simulation/catkin_ws_bluerov/src
 cd bluerov_simulation/catkin_ws_bluerov
@@ -56,6 +58,7 @@ cd ..
 #Add ardupilot full
 git clone https://github.com/ArduPilot/ardupilot.git
 cd ardupilot
+git submodule update --init --recursive
 Tools/environment_install/install-prereqs-ubuntu.sh -y
 . ~/.profile
 source ~/.bashrc
