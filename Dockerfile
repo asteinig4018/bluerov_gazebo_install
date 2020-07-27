@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y \
     ros-melodic-mavros-extras \
     ros-melodic-joy \
     git \
-    python-pip -y
+    python-pip -y \
+    mesa-utils
     #gstreamer stuff
 
 WORKDIR /usr
