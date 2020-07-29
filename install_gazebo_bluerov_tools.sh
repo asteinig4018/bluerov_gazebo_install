@@ -11,6 +11,7 @@
 
 #installs for Docker
 pip install -U pymavlink
+pip install -U mavproxy
 
 mkdir -p bluerov_simulation/catkin_ws_bluerov/src
 cd bluerov_simulation/catkin_ws_bluerov
@@ -72,6 +73,14 @@ wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/inst
 chmod +x ./install_geographiclib_datasets.sh
 sudo ./install_geographiclib_datasets.sh
 
+export PATH=$PATH:/usr/bluerov_simulation/ardupilot/Tools/autotest
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/ros/melodic/lib
+
+echo $PATH
+echo $LD_LIBRARY_PATH
+
+#fix gazebo install
+sed -i '13s/.*/#unset LD_LIBRARY_PATH/' /usr/bluerov_simulation/catkin_ws_bluerov/src/bluerov_ros_playground/gazebo.sh
 
 #Install Mavros non binary - currently unsure if this is necessary
 #cd catkin_ws_bluerov
