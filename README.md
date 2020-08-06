@@ -15,7 +15,7 @@ You must install gazebo before running this script. Tested with Gazebo 9.0.
 
 ## Use
 
-Run not as root. QGroundControl must be installed manually.
+When not using docker, do not run as root. QGroundControl must be installed manually.
 
 ## Reference
 
